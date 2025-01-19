@@ -2,9 +2,7 @@
 	import NumberInput from './NumberInput.svelte';
 	import Duration from '$lib/Duration';
 
-	let { value = $bindable(), hours: nominalHours }: { value: Duration; hours?: boolean } = $props();
-
-	let hours = nominalHours ?? value.hours > 0;
+	let { value = $bindable(), hours }: { value: Duration; hours: boolean } = $props();
 </script>
 
 {#if hours}<NumberInput
