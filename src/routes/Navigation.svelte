@@ -3,109 +3,138 @@
 	import HexagonFrame from './HexagonFrame.svelte';
 	import Plate from './Plate.svelte';
 	import LightningBoltRaw from './LightningBoltRaw.svelte';
+	import type Duration from '$lib/Duration';
 
 	let {
 		class: inheritClass = '',
 		energyCurrent,
 		energyMax,
+		energyUntilNext,
 		intimacyCurrent,
-		intimacyMax
+		intimacyMax,
+		intimacyUntilNext
 	}: {
 		class?: string;
 		energyCurrent: number;
 		energyMax: number;
+		energyUntilNext: Duration;
 		intimacyCurrent: number;
 		intimacyMax: number;
+		intimacyUntilNext: Duration;
 	} = $props();
 </script>
 
-<svg viewBox="0 0 458 805" class={`${inheritClass} [image-rendering:crisp-edges]`}>
+<svg class={`${inheritClass} [image-rendering:crisp-edges]`} viewBox="0 0 458 805">
 	<defs>
-		<linearGradient id="journey-plate" x1="0" y1="0.2" x2="1" y2="0.6">
+		<linearGradient id="journey-plate" x1="0" x2="1" y1="0.2" y2="0.6">
 			<stop offset="0%" stop-color="#7C5C36" />
 			<stop offset="49.9%" stop-color="#7C5C36" />
 			<stop offset="50.1%" stop-color="#A28253" />
 			<stop offset="100%" stop-color="#A28253" />
 		</linearGradient>
 	</defs>
-	<a href="#journey" class="no-underline">
+	<a class="no-underline" href="#journey">
 		<HexagonFrame cx={210} cy={424} r={187} />
-		<Hexagon cx={210} cy={424} r={174} fill="#F6DA9B" />
-		<Hexagon cx={210} cy={424} r={168} fill="#F3D187" />
-		<Hexagon cx={210} cy={424} r={160} stroke="#C09435" fill="#F7D389" />
-		<text x="210" y="410" font-size="120px" text-anchor="middle">🗺️</text>
+		<Hexagon cx={210} cy={424} fill="#F6DA9B" r={174} />
+		<Hexagon cx={210} cy={424} fill="#F3D187" r={168} />
+		<Hexagon cx={210} cy={424} fill="#F7D389" r={160} stroke="#C09435" />
+		<text font-size="120px" text-anchor="middle" x="210" y="410">🗺️</text>
 		<text
-			x="210"
-			y="517"
 			class="uppercase"
 			fill="#58503D"
-			stroke="white"
-			font-weight="700"
 			font-size="40px"
+			font-weight="700"
+			stroke="white"
+			stroke-linejoin="round"
 			stroke-width="3"
 			text-anchor="middle"
-			stroke-linejoin="round">Journey</text
+			x="210"
+			y="517">Journey</text
 		>
-		<Plate cx={210} cy={452} w={226} fill="url(#journey-plate)" />
+		<Plate cx={210} cy={452} fill="url(#journey-plate)" w={226} />
 		<LightningBoltRaw colorFor="energy" x={111} y={438} />
-		<text x="210" y="462" fill="white" font-weight="700" font-size="30px" text-anchor="middle"
+		<text fill="white" font-size="30px" font-weight="700" text-anchor="middle" x="210" y="462"
 			>{energyCurrent}/{energyMax}</text
 		>
+		{#if energyCurrent < energyMax}
+			<rect x="149" y="549" width="124" height="41" fill="#000000A0" rx="9" />
+			<text
+				fill="#B3A38A"
+				font-size="25px"
+				text-anchor="start"
+				stroke="black"
+				font-weight="700"
+				x="156"
+				y="578">⏱️ {energyUntilNext.formatted({ hours: false })}</text
+			>
+		{/if}
 	</a>
-	<a href="#intimacy" class="no-underline">
+	<a class="no-underline" href="#intimacy">
 		<HexagonFrame cx={335} cy={142} r={142} />
-		<Hexagon cx={335} cy={142} r={132} stroke="#CEB99C" fill="#F4EDE5" />
-		<Hexagon cx={335} cy={142} r={122} stroke="#D9C8B6" fill="#EEE0D5" />
-		<text x="335" y="120" font-size="80px" text-anchor="middle">🔑</text>
+		<Hexagon cx={335} cy={142} fill="#F4EDE5" r={132} stroke="#CEB99C" />
+		<Hexagon cx={335} cy={142} fill="#EEE0D5" r={122} stroke="#D9C8B6" />
+		<text font-size="80px" text-anchor="middle" x="335" y="120">🔑</text>
 		<text
-			x="335"
-			y="221"
 			class="uppercase"
 			fill="#3C382D"
-			stroke="white"
-			font-weight="700"
 			font-size="35px"
+			font-weight="700"
+			stroke="white"
 			stroke-width="2"
-			text-anchor="middle">Intimacy</text
+			text-anchor="middle"
+			x="335"
+			y="221">Intimacy</text
 		>
-		<Plate cx={335} cy={161} w={168} fill="#FCF5EF" />
+		<Plate cx={335} cy={161} fill="#FCF5EF" w={168} />
 		<LightningBoltRaw colorFor="intimacy" x={263} y={147} />
-		<text x="343" y="171" fill="#BE8C43" font-weight="700" font-size="30px" text-anchor="middle"
+		<text fill="#BE8C43" font-size="30px" font-weight="700" text-anchor="middle" x="343" y="171"
 			>{intimacyCurrent}/{intimacyMax}</text
 		>
+		{#if intimacyCurrent < intimacyMax}
+			<rect x="273" y="230" width="124" height="41" fill="#000000A0" rx="9" />
+			<text
+				fill="#B3A38A"
+				font-size="25px"
+				text-anchor="start"
+				stroke="black"
+				font-weight="700"
+				x="279"
+				y="260">⏱️ {intimacyUntilNext.formatted({ hours: false })}</text
+			>
+		{/if}
 	</a>
-	<a href="#workshop" class="no-underline">
+	<a class="no-underline" href="#workshop">
 		<HexagonFrame cx={100} cy={688} r={115} />
-		<Hexagon cx={100} cy={688} r={105} stroke="#CEB99C" fill="#F4EDE5" />
-		<Hexagon cx={100} cy={688} r={95} stroke="#D9C8B6" fill="#EEE0D5" />
-		<text x="100" y="697" font-size="70px" text-anchor="middle">🧪</text>
+		<Hexagon cx={100} cy={688} fill="#F4EDE5" r={105} stroke="#CEB99C" />
+		<Hexagon cx={100} cy={688} fill="#EEE0D5" r={95} stroke="#D9C8B6" />
+		<text font-size="70px" text-anchor="middle" x="100" y="697">🧪</text>
 		<text
-			x="100"
-			y="739"
 			class="uppercase"
 			fill="#3C382D"
-			stroke="white"
-			font-weight="700"
 			font-size="25px"
+			font-weight="700"
+			stroke="white"
 			stroke-width="2"
-			text-anchor="middle">Workshop</text
+			text-anchor="middle"
+			x="100"
+			y="739">Workshop</text
 		>
 	</a>
-	<a href="#exploration" class="no-underline">
+	<a class="no-underline" href="#exploration">
 		<HexagonFrame cx={318} cy={688} r={115} />
-		<Hexagon cx={318} cy={688} r={105} stroke="#CEB99C" fill="#F4EDE5" />
-		<Hexagon cx={318} cy={688} r={95} stroke="#D9C8B6" fill="#EEE0D5" />
-		<text x="318" y="697" font-size="70px" text-anchor="middle">🗺️</text>
+		<Hexagon cx={318} cy={688} fill="#F4EDE5" r={105} stroke="#CEB99C" />
+		<Hexagon cx={318} cy={688} fill="#EEE0D5" r={95} stroke="#D9C8B6" />
+		<text font-size="70px" text-anchor="middle" x="318" y="697">🗺️</text>
 		<text
-			x="318"
-			y="737"
 			class="uppercase"
 			fill="#3C382D"
-			stroke="white"
-			font-weight="700"
 			font-size="23px"
+			font-weight="700"
+			stroke="white"
 			stroke-width="2"
-			text-anchor="middle">Exploration</text
+			text-anchor="middle"
+			x="318"
+			y="737">Exploration</text
 		>
 	</a>
 </svg>

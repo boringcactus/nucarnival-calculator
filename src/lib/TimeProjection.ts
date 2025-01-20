@@ -8,13 +8,9 @@ export default class TimeProjection {
 		this.atDate = new Date(now.valueOf() + seconds * 1000);
 	}
 
-	formattedDuration() {
+	formattedDuration(options: { hours: boolean }) {
 		const duration = new Duration(this.seconds);
-		return [
-			duration.hours.toString().padStart(2, '0'),
-			duration.minutes.toString().padStart(2, '0'),
-			duration.seconds.toString().padStart(2, '0')
-		].join(':');
+		return duration.formatted(options);
 	}
 
 	formattedTime() {
