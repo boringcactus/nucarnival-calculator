@@ -1,6 +1,6 @@
-import Duration from '$lib/Duration';
+import { mergeDuration } from '$lib/Duration';
 
 export default class WorkshopSettings {
-	silverSpeed = $state(new Duration(2 * 60 * 60));
-	goldSpeed = $state(new Duration((2 * 60 + 20) * 60));
+	silverSpeed = $state(mergeDuration({ hours: 2 }));
+	goldSpeed = $state(mergeDuration({ hours: 2, minutes: 20 }));
 }

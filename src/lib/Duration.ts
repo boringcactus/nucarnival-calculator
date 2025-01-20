@@ -1,40 +1,37 @@
-export default class Duration {
-	value: number;
-	constructor(value: number) {
-		this.value = value;
-	}
+export type Duration = {
+	seconds: number;
+	minutes: number;
+	hours: number;
+};
 
-	get hours() {
-		return Math.floor(this.value / 3600);
-	}
+export function splitDuration(totalSeconds: number): Duration {
+	const seconds = totalSeconds % 60;
+	const minutes = Math.floor(totalSeconds / 60) % 60;
+	const hours = Math.floor(totalSeconds / 3600);
+	return { hours, minutes, seconds };
+}
 
-	set hours(value: number) {
-		this.value = (value * 60 + this.minutes) * 60 + this.seconds;
-	}
+export function mergeDuration({ hours = 0, minutes = 0, seconds = 0 }: Partial<Duration>): number {
+	return (hours * 60 + minutes) * 60 + seconds;
+}
 
-	get minutes() {
-		return Math.floor(this.value / 60) % 60;
-	}
+export function updateDuration(originalSeconds: number, newValues: Partial<Duration>): number {
+	const original = splitDuration(originalSeconds);
+	const {
+		hours = original.hours,
+		minutes = original.minutes,
+		seconds = original.seconds
+	} = newValues;
+	return mergeDuration({ hours, minutes, seconds });
+}
 
-	set minutes(value: number) {
-		this.value = (this.hours * 60 + value) * 60 + this.seconds;
-	}
-
-	get seconds() {
-		return this.value % 60;
-	}
-
-	set seconds(value: number) {
-		this.value = (this.hours * 60 + this.minutes) * 60 + value;
-	}
-
-	formatted(options: { hours: boolean }) {
-		return [
-			this.hours > 0 || options.hours ? this.hours.toString() : undefined,
-			this.minutes.toString().padStart(2, '0'),
-			this.seconds.toString().padStart(2, '0')
-		]
-			.filter((x) => x !== undefined)
-			.join(':');
-	}
+export function formatDuration(totalSeconds: number, options: { showHours: boolean }): string {
+	const { hours, minutes, seconds } = splitDuration(totalSeconds);
+	return [
+		hours > 0 || options.showHours ? hours.toString() : undefined,
+		minutes.toString().padStart(2, '0'),
+		seconds.toString().padStart(2, '0')
+	]
+		.filter((x) => x !== undefined)
+		.join(':');
 }

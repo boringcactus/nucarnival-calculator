@@ -3,7 +3,7 @@
 	import HexagonFrame from './HexagonFrame.svelte';
 	import Plate from './Plate.svelte';
 	import LightningBoltRaw from './LightningBoltRaw.svelte';
-	import type Duration from '$lib/Duration';
+	import { formatDuration } from '$lib/Duration.js';
 
 	let {
 		class: inheritClass = '',
@@ -17,10 +17,10 @@
 		class?: string;
 		energyCurrent: number;
 		energyMax: number;
-		energyUntilNext: Duration;
+		energyUntilNext: number;
 		intimacyCurrent: number;
 		intimacyMax: number;
-		intimacyUntilNext: Duration;
+		intimacyUntilNext: number;
 	} = $props();
 </script>
 
@@ -62,7 +62,7 @@
 				stroke="black"
 				font-weight="700"
 				x="156"
-				y="578">⏱️ {energyUntilNext.formatted({ hours: false })}</text
+				y="578">⏱️ {formatDuration(energyUntilNext, { showHours: false })}</text
 			>
 		{/if}
 	</a>
@@ -94,7 +94,7 @@
 				stroke="black"
 				font-weight="700"
 				x="279"
-				y="260">⏱️ {intimacyUntilNext.formatted({ hours: false })}</text
+				y="260">⏱️ {formatDuration(intimacyUntilNext, { showHours: false })}</text
 			>
 		{/if}
 	</a>

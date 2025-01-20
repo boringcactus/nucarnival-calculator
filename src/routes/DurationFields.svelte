@@ -1,29 +1,29 @@
 <script lang="ts">
 	import NumberInput from './NumberInput.svelte';
-	import Duration from '$lib/Duration';
+	import { splitDuration, updateDuration } from '$lib/Duration';
 
-	let { value = $bindable(), hours }: { value: Duration; hours: boolean } = $props();
+	let { value = $bindable(), hours }: { value: number; hours: boolean } = $props();
 </script>
 
 {#if hours}<NumberInput
 		bind:value={
-			() => value.hours,
-			(x) => {
-				value.hours = x;
+			() => splitDuration(value).hours,
+			(hours) => {
+				value = updateDuration(value, { hours });
 			}
 		}
 	/>:{/if}<NumberInput
 	bind:value={
-		() => value.minutes,
-		(x) => {
-			value.minutes = x;
+		() => splitDuration(value).minutes,
+		(minutes) => {
+			value = updateDuration(value, { minutes });
 		}
 	}
 />:<NumberInput
 	bind:value={
-		() => value.seconds,
-		(x) => {
-			value.seconds = x;
+		() => splitDuration(value).seconds,
+		(seconds) => {
+			value = updateDuration(value, { seconds });
 		}
 	}
 />

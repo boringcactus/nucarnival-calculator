@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Navigation from './Navigation.svelte';
 	import LightningBolt from './LightningBolt.svelte';
 	import MeterFields from './MeterFields.svelte';
@@ -7,17 +7,41 @@
 	import WorkshopSlot from './WorkshopSlot.svelte';
 	import WorkshopSettings from './WorkshopSettings.svelte';
 	import DurationFields from './DurationFields.svelte';
-	import Duration from '$lib/Duration';
+	import { mergeDuration } from '$lib/Duration';
 
 	let energyCurrent = $state(21);
 	let energyMax = $state(112);
-	let energyUntilNext = $state(new Duration(5 * 60));
+	let energyUntilNext = $state(mergeDuration({ minutes: 5 }));
+	let energyReachedCurrentAt: Date | null = $state(null);
+	let energyTicking = $state(false);
 	let intimacyCurrent = $state(7);
 	let intimacyMax = $state(40);
-	let intimacyUntilNext = $state(new Duration(10 * 60));
+	let intimacyUntilNext = $state(mergeDuration({ minutes: 10 }));
+	let intimacyReachedCurrentAt: Date | null = $state(null);
+	let intimacyTicking = $state(false);
 	let workshopSettings = new WorkshopSettings();
 
 	let now = new SvelteDate();
+
+	function pauseEnergyTicking() {
+		energyTicking = false;
+		energyReachedCurrentAt = null;
+	}
+
+	function resumeEnergyTicking() {
+		energyTicking = true;
+		energyReachedCurrentAt = new Date(Date.now() - 5 * 60 * 1000 + energyUntilNext * 1000);
+	}
+
+	function pauseIntimacyTicking() {
+		intimacyTicking = false;
+		intimacyReachedCurrentAt = null;
+	}
+
+	function resumeIntimacyTicking() {
+		intimacyTicking = true;
+		intimacyReachedCurrentAt = new Date(Date.now() - 10 * 60 * 1000 + intimacyUntilNext * 1000);
+	}
 
 	$effect(() => {
 		const interval = setInterval(() => {
@@ -27,6 +51,32 @@
 		return () => {
 			clearInterval(interval);
 		};
+	});
+
+	$effect(() => {
+		if (energyTicking && energyCurrent < energyMax && energyReachedCurrentAt !== null) {
+			let nextAt = energyReachedCurrentAt.valueOf() + 5 * 60 * 1000;
+			let secondsUntilNext = Math.floor((nextAt - now.valueOf()) / 1000);
+			energyUntilNext = secondsUntilNext;
+			if (secondsUntilNext == 0) {
+				energyCurrent++;
+				energyReachedCurrentAt = new Date(now.valueOf());
+				energyUntilNext = mergeDuration({ minutes: 5 });
+			}
+		}
+	});
+
+	$effect(() => {
+		if (intimacyTicking && intimacyCurrent < intimacyMax && intimacyReachedCurrentAt !== null) {
+			let nextAt = intimacyReachedCurrentAt.valueOf() + 10 * 60 * 1000;
+			let secondsUntilNext = Math.floor((nextAt - now.valueOf()) / 1000);
+			intimacyUntilNext = secondsUntilNext;
+			if (secondsUntilNext == 0) {
+				intimacyCurrent++;
+				intimacyReachedCurrentAt = new Date(now.valueOf());
+				energyUntilNext = mergeDuration({ minutes: 10 });
+			}
+		}
 	});
 </script>
 
@@ -57,7 +107,13 @@
 
 <section class="prose prose-slate mx-auto dark:prose-invert">
 	<h2 id="journey">Journey</h2>
-	<MeterFields bind:current={energyCurrent} bind:max={energyMax} bind:untilNext={energyUntilNext}>
+	<MeterFields
+		bind:current={energyCurrent}
+		bind:max={energyMax}
+		bind:untilNext={energyUntilNext}
+		onfocusin={pauseEnergyTicking}
+		onfocusout={resumeEnergyTicking}
+	>
 		<LightningBolt class="h-8" colorFor="energy" />
 	</MeterFields>
 	<TargetLerp
@@ -76,6 +132,8 @@
 		bind:current={intimacyCurrent}
 		bind:max={intimacyMax}
 		bind:untilNext={intimacyUntilNext}
+		onfocusin={pauseIntimacyTicking}
+		onfocusout={resumeIntimacyTicking}
 	>
 		<LightningBolt class="h-8" colorFor="intimacy" />
 	</MeterFields>

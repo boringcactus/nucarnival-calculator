@@ -1,4 +1,4 @@
-import Duration from '$lib/Duration';
+import { formatDuration } from './Duration';
 
 export default class TimeProjection {
 	private readonly seconds: number;
@@ -8,9 +8,8 @@ export default class TimeProjection {
 		this.atDate = new Date(now.valueOf() + seconds * 1000);
 	}
 
-	formattedDuration(options: { hours: boolean }) {
-		const duration = new Duration(this.seconds);
-		return duration.formatted(options);
+	formattedDuration(options: { showHours: boolean }) {
+		return formatDuration(this.seconds, options);
 	}
 
 	formattedTime() {

@@ -1,17 +1,37 @@
 <script lang="ts">
 	import NumberInput from './NumberInput.svelte';
 	import DurationFields from './DurationFields.svelte';
+	import trackFocus from '$lib/trackFocus.svelte';
+	import type { Snippet } from 'svelte';
 
-	let { current = $bindable(), max = $bindable(), untilNext = $bindable(), children } = $props();
+	let {
+		current = $bindable(),
+		max = $bindable(),
+		untilNext = $bindable(),
+		onfocusin,
+		onfocusout,
+		children
+	}: {
+		current: number;
+		max: number;
+		untilNext: number;
+		onfocusin?: () => void;
+		onfocusout?: () => void;
+		children: Snippet;
+	} = $props();
 </script>
 
-<label class="flex flex-row items-center">
-	{@render children()}
-	<NumberInput bind:value={current} min={0} />
-	/
-	<NumberInput bind:value={max} min={0} />
+<div class="flex flex-row items-center" use:trackFocus={{ onfocusin, onfocusout }}>
+	<label class="contents">
+		{@render children()}
+		<NumberInput bind:value={current} min={0} />
+		/
+		<NumberInput bind:value={max} min={0} />
+	</label>
 	{#if current < max}
-		⏱️
-		<DurationFields bind:value={untilNext} hours={false} />
+		<label class="contents">
+			⏱️
+			<DurationFields bind:value={untilNext} hours={false} />
+		</label>
 	{/if}
-</label>
+</div>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type WorkshopSettings from './WorkshopSettings.svelte';
 	import DurationFields from './DurationFields.svelte';
-	import Duration from '$lib/Duration';
+	import { mergeDuration } from '$lib/Duration';
 	import TimeProjection from '$lib/TimeProjection';
 
 	let {
@@ -17,14 +17,14 @@
 	let value = $state(defaultCraft);
 	let secondsPer = $derived(
 		value === 'silver'
-			? workshopSettings.silverSpeed.value
+			? workshopSettings.silverSpeed
 			: value === 'gold'
-				? workshopSettings.goldSpeed.value
+				? workshopSettings.goldSpeed
 				: null
 	);
-	let craftingTime = $state(new Duration((17 * 60 + 38) * 60));
+	let craftingTime = $state(mergeDuration({ hours: 17, minutes: 38 }));
 	let nextBreak = $derived(
-		secondsPer !== null ? new TimeProjection(craftingTime.value % secondsPer, now) : null
+		secondsPer !== null ? new TimeProjection(craftingTime % secondsPer, now) : null
 	);
 </script>
 
@@ -37,9 +37,9 @@
 	</select>
 	{#if secondsPer !== null && secondsPer > 0}
 		<div>Crafting... <DurationFields bind:value={craftingTime} hours /></div>
-		{#if craftingTime.value > 0 && nextBreak !== null}
+		{#if craftingTime > 0 && nextBreak !== null}
 			<div>
-				Next break in {nextBreak.formattedDuration({ hours: false })} at {nextBreak.formattedTime()}
+				Next break in {nextBreak.formattedDuration({ showHours: false })} at {nextBreak.formattedTime()}
 			</div>
 		{/if}
 	{:else if value === 'alchemy'}
