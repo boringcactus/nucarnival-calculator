@@ -30,8 +30,8 @@
 	});
 </script>
 
-<div class="flex flex-row justify-center">
-	<article class="prose prose-slate mx-auto dark:prose-invert">
+<div class="flex flex-row flex-wrap justify-center mx-auto">
+	<article class="prose prose-slate dark:prose-invert">
 		<h1>NU: Carnival Timer & Calculator</h1>
 		<p>
 			Not sure when your energy will be full? when to interrupt your silver and gold to make some

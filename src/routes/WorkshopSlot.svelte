@@ -28,17 +28,17 @@
 	);
 </script>
 
-<div>
-	<select bind:value class="bg-slate-200 dark:bg-slate-700">
+<div class="mt-2">
+	<select bind:value class="block bg-slate-200 dark:bg-slate-700">
 		<option value="silver">Silver</option>
 		<option value="gold">Gold</option>
 		<option value="alchemy">Alchemy</option>
 		<option value="locked">Locked</option>
 	</select>
 	{#if secondsPer !== null && secondsPer > 0}
-		Crafting... <DurationFields bind:value={craftingTime} hours />
+		<div>Crafting... <DurationFields bind:value={craftingTime} hours /></div>
 		{#if craftingTime.value > 0 && nextBreak !== null}
-			Next break in {nextBreak.formattedDuration({ hours: false })} at {nextBreak.formattedTime()}
+			<div>Next break in {nextBreak.formattedDuration({ hours: false })} at {nextBreak.formattedTime()}</div>
 		{/if}
 	{:else if value === 'alchemy'}
 		🤷‍♀️
