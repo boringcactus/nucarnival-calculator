@@ -30,7 +30,7 @@
 	});
 </script>
 
-<div class="flex flex-row flex-wrap justify-center mx-auto">
+<div class="mx-auto flex flex-row flex-wrap justify-center">
 	<article class="prose prose-slate dark:prose-invert">
 		<h1>NU: Carnival Timer & Calculator</h1>
 		<p>

@@ -38,7 +38,9 @@
 	{#if secondsPer !== null && secondsPer > 0}
 		<div>Crafting... <DurationFields bind:value={craftingTime} hours /></div>
 		{#if craftingTime.value > 0 && nextBreak !== null}
-			<div>Next break in {nextBreak.formattedDuration({ hours: false })} at {nextBreak.formattedTime()}</div>
+			<div>
+				Next break in {nextBreak.formattedDuration({ hours: false })} at {nextBreak.formattedTime()}
+			</div>
 		{/if}
 	{:else if value === 'alchemy'}
 		🤷‍♀️

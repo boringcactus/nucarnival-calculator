@@ -1,4 +1,5 @@
-name: test.yml
+name: Run tests
+
 on:
   push:
 
