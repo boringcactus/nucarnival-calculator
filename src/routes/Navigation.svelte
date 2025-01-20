@@ -44,9 +44,6 @@
 			fill="#58503D"
 			font-size="40px"
 			font-weight="700"
-			stroke="white"
-			stroke-linejoin="round"
-			stroke-width="3"
 			text-anchor="middle"
 			x="210"
 			y="517">Journey</text
@@ -79,8 +76,6 @@
 			fill="#3C382D"
 			font-size="35px"
 			font-weight="700"
-			stroke="white"
-			stroke-width="2"
 			text-anchor="middle"
 			x="335"
 			y="221">Intimacy</text
@@ -113,8 +108,6 @@
 			fill="#3C382D"
 			font-size="25px"
 			font-weight="700"
-			stroke="white"
-			stroke-width="2"
 			text-anchor="middle"
 			x="100"
 			y="739">Workshop</text
@@ -130,8 +123,6 @@
 			fill="#3C382D"
 			font-size="23px"
 			font-weight="700"
-			stroke="white"
-			stroke-width="2"
 			text-anchor="middle"
 			x="318"
 			y="737">Exploration</text
