@@ -22,3 +22,7 @@ npm run build
 ```
 
 You can preview the production build with `npm run preview`.
+
+## License
+
+Released under [Big Bill Hell’s License](https://lifning.info/BBHL).
