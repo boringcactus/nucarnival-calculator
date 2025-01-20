@@ -6,6 +6,7 @@
 </script>
 
 {#if hours}<NumberInput
+		class="w-20"
 		bind:value={
 			() => splitDuration(value).hours,
 			(hours) => {
@@ -13,6 +14,7 @@
 			}
 		}
 	/>:{/if}<NumberInput
+	class="w-20"
 	bind:value={
 		() => splitDuration(value).minutes,
 		(minutes) => {
@@ -20,6 +22,7 @@
 		}
 	}
 />:<NumberInput
+	class="w-20"
 	bind:value={
 		() => splitDuration(value).seconds,
 		(seconds) => {

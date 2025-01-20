@@ -28,7 +28,7 @@
 	{:else}
 		Already reached
 	{/if}
-	<NumberInput bind:value={target} {max} min={0} placeholder={defaultTarget} />
+	<NumberInput class="w-20" bind:value={target} {max} min={0} placeholder={defaultTarget} />
 	{#if lerpResult != null}
 		in {lerpResult.formattedDuration({ showHours: false })} at {lerpResult.formattedTime()}
 	{/if}

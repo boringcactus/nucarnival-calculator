@@ -8,6 +8,7 @@
 	import WorkshopSettings from './WorkshopSettings.svelte';
 	import DurationFields from './DurationFields.svelte';
 	import { mergeDuration } from '$lib/Duration';
+	import IntimacyRoom from './IntimacyRoom.svelte';
 
 	let energyCurrent = $state(21);
 	let energyMax = $state(112);
@@ -145,6 +146,7 @@
 		{now}
 		untilNext={intimacyUntilNext}
 	/>
+	<IntimacyRoom />
 </section>
 
 <section class="prose prose-slate mx-auto dark:prose-invert">

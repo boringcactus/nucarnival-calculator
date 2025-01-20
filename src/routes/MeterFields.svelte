@@ -24,9 +24,9 @@
 <div class="flex flex-row items-center" use:trackFocus={{ onfocusin, onfocusout }}>
 	<label class="contents">
 		{@render children()}
-		<NumberInput bind:value={current} min={0} />
+		<NumberInput class="w-20" bind:value={current} min={0} />
 		/
-		<NumberInput bind:value={max} min={0} />
+		<NumberInput class="w-20" bind:value={max} min={0} />
 	</label>
 	{#if current < max}
 		<label class="contents">
